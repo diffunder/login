@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     //something was posted
     $user_name = $_POST['user_name'];
     $password = $_POST['password'];
-    if (!empty($user_name) && !empty($password) && !is_numeric($user_name)) {
+    if (!empty($user_name) && !empty($password)) {
 
         //save to database
         $user_id = random_num(5);
@@ -30,32 +30,39 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 <head>
     <title>Signup</title>
+    <style type="text/css">
+        div {
+            border: 3px solid #f1f1f1;
+        }
+
+        input[type=text],
+        input[type=password] {
+            padding: 12px 20px;
+            margin: 8px 0;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
 </head>
 
 <body>
     <h1>Signup</h1>
-    <style type="text/css">
-        div,
-        h1 {
-            background-color: #704A41;
-            color: whitesmoke;
-            font-size: 22px;
-        }
+    
 
-        table {
-            text-align: center;
-            margin: auto;
-        }
-
-        button {
-            color: aliceblue;
-            text-align: center;
-        }
-    </style>
-
-    <div id="box>
+    <div>
         <form method=" post">
-        <div>Регистрация</div>
         <table>
             <tr>
                 <td>
@@ -69,12 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 </td>
                 <td><input type="password" name="password" /></td>
             </tr>
-        </table>
+        </table><br>
         <input id="button" type="submit" value="Signup"><br><br>
         <a href="login.php">Login</a><br><br>
         </form>
     </div>
-
 
 </body>
 
