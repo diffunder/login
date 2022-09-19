@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <?php
 session_start();
 include("connection.php");
@@ -20,6 +21,7 @@ $user_data = check_login($con);
 
     <br>
     Hello, <?php echo $user_data['user_name']; ?>.
+    <a href="changePassword.php">Сменить пароль</a><br><br>
 </body>
 
 </html>

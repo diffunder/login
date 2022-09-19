@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <?php
 session_start();
 
@@ -12,11 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         //save to database
         $user_id = random_num(5);
-        $query = "insert into users (user_id, user_name, password) values ('$user_id', '$user_name', '$password')";
-
+        $query = "INSERT into users (user_id, user_name, password) VALUES ('$user_id', '$user_name', '$password')";
+        echo $query,PHP_EOL;
         mysqli_query($con, $query);
+        echo $query,PHP_EOL;
 
-        header("Location: login.php");
+        header("Location: signin.php");
         die;
     } else {
         echo "Please enter some valid information!";
@@ -62,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     
 
     <div>
-        <form method=" post">
+        <form action = "signup.php" method="post">
         <table>
             <tr>
                 <td>
@@ -78,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             </tr>
         </table><br>
         <input id="button" type="submit" value="Signup"><br><br>
-        <a href="login.php">Login</a><br><br>
+        <a href="signin.php">Login</a><br><br>
         </form>
     </div>
 

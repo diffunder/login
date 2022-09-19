@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <?php
 
 function check_login($con) {
@@ -13,7 +14,7 @@ function check_login($con) {
         }
     }
     //redirect to login
-    header("Location: login.php");
+    header("Location: signin.php");
     die;
 }
 

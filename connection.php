@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <?php
 
 $dbhost = "localhost";
@@ -9,3 +10,4 @@ if (!$con = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname)) {
 
     die("failed to connect!");
 }
+?>

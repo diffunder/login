@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <?php
 session_start();
 
@@ -8,10 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     //something was posted
     $user_name = $_POST['user_name'];
     $password = $_POST['password'];
-    if (!empty($user_name) && !empty($password) && !is_numeric($user_name)) {
-
+    if (!empty($user_name) && !empty($password)) {
         //read from database
-        $query = "select * from users where user_name = '$user_name' limit 1";
+        $query = "SELECT * from users where user_name = '$user_name' limit 1";
         $result = mysqli_query($con, $query);
 
         if ($result) {
@@ -84,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             </table><br>
             <input id="button" type="submit" value="Login"><br><br>
             <a href="signup.php">Signup</a><br><br>
+            <a href="changePassword.php">Сменить пароль</a><br><br>
         </form>
     </div>
 </body>
