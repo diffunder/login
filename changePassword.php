@@ -1,5 +1,6 @@
 <meta charset="utf-8">
 <?php
+session_start();
 
 include("connection.php");
 include("functions.php");
@@ -10,9 +11,9 @@ include("functions.php");
 	$result = mysqli_query($con, $query);
 	$user = mysqli_fetch_assoc($result);
 	
-	$newPassword = $_POST['new_password'];
+	$new_password = $_POST['new_password'];
 	
-	$query = "UPDATE users SET password='$newPassword' WHERE id='$id'";
+	$query = "UPDATE users SET password='$new_password' WHERE id='$id'";
 	mysqli_query($con, $query);
 ?>
 
@@ -23,7 +24,7 @@ include("functions.php");
 
 <body>
 <form action="" method="POST">
-	<input name="new_password">
+	<input type="password" name="new_password">
 	<input type="submit" name="submit">
 </form><br>
 </body>    

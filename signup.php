@@ -61,8 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 <body>
     <h1>Signup</h1>
-    
-
     <div>
         <form action = "signup.php" method="post">
         <table>
