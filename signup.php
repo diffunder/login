@@ -1,4 +1,3 @@
-<meta charset="utf-8">
 <?php
 session_start();
 
@@ -8,12 +7,13 @@ include("functions.php");
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     //something was posted
     $user_name = $_POST['user_name'];
-    $password = $_POST['password'];
+    $salt = randomSalt();
+    $password = md5($salt.$_POST['password']);
     if (!empty($user_name) && !empty($password)) {
 
         //save to database
         $user_id = random_num(5);
-        $query = "INSERT into users (user_id, user_name, password) VALUES ('$user_id', '$user_name', '$password')";
+        $query = "INSERT into users (user_id, user_name, password, salt) VALUES ('$user_id', '$user_name', '$password', '$salt')";
         echo $query,PHP_EOL;
         mysqli_query($con, $query);
         echo $query,PHP_EOL;
@@ -27,41 +27,33 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 ?>
 
 <!DOCTYPE html>
-
+<meta charset="utf-8">
 <html lang="ru">
-
 <head>
-    <title>Signup</title>
+    <title>Registration page</title>
     <style type="text/css">
         div {
             border: 3px solid #f1f1f1;
+            text-align: center;
+            align-content: center;
         }
-
-        input[type=text],
-        input[type=password] {
+        input[type=text], input[type=password] {
             padding: 12px 20px;
             margin: 8px 0;
         }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 100%;
+        table {
+            text-align: center;
+            margin: auto;
         }
-
-        button:hover {
-            opacity: 0.8;
+        form {
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
-    <h1>Signup</h1>
     <div>
+    <h1>Регистрация на сайте</h1>
         <form action = "signup.php" method="post">
         <table>
             <tr>
@@ -78,10 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             </tr>
         </table><br>
         <input id="button" type="submit" value="Signup"><br><br>
-        <a href="signin.php">Login</a><br><br>
+        <a href="signin.php">Login</a>
         </form>
     </div>
-
 </body>
 
 </html>

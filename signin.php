@@ -6,26 +6,30 @@ include("connection.php");
 include("functions.php");
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    //something was posted
+
+    
     $user_name = $_POST['user_name'];
-    $password = $_POST['password'];
-    if (!empty($user_name) && !empty($password)) {
-        //read from database
-        $query = "SELECT * from users where user_name = '$user_name' limit 1";
-        $result = mysqli_query($con, $query);
+    $query = "SELECT * FROM users WHERE user_name='$user_name' limit 1"; 
+    $result = mysqli_query($con, $query);
+    $user_data = mysqli_fetch_assoc($result);
 
-        if ($result) {
-            if ($result && mysqli_num_rows($result) > 0) {
-                $user_data = mysqli_fetch_assoc($result);
-                if ($user_data['password'] === $password) {
+    if (!empty($user_data)) {
 
-                    $_SESSION['user_id'] = $user_data['user_id'];
-                    header("Location: index.php");
-                    die;
-                }
-            }
+        $salt = $user_data['salt'];
+		$hash = $user_data['password'];
+		
+		$password = md5($salt . $_POST['password']);
+		
+		// Сравниваем соленые хеши
+		if ($password == $hash) {
+			$_SESSION['user_id'] = $user_data['user_id'];
+            header("Location: index.php");
+            die;
+		} else {
+			echo "Wrong login or password!";
         }
-    } else {
+    } 
+    else {
         echo "Please enter some valid information!";
     }
 }
@@ -40,33 +44,26 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <style type="text/css">
         div {
             border: 3px solid #f1f1f1;
+            text-align: center;
+            align-content: center;
         }
-
-        input[type=text],
-        input[type=password] {
+        input[type=text], input[type=password] {
             padding: 12px 20px;
             margin: 8px 0;
         }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 100%;
+        table {
+            text-align: center;
+            margin: auto;
         }
-
-        button:hover {
-            opacity: 0.8;
+        form {
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
-    <h1>Login</h1>
     <div>
+    <h1>Вход на сайт</h1>
         <form method="post">
             <table>
                 <tr>
@@ -83,8 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 </tr>
             </table><br>
             <input id="button" type="submit" value="Login"><br><br>
-            <a href="signup.php">Signup</a><br><br>
-            <a href="changePassword.php">Сменить пароль</a><br><br>
+            <a href="signup.php">Signup</a>
         </form>
     </div>
 </body>
