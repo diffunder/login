@@ -1,35 +1,32 @@
-<meta charset="utf-8">
 <?php
-session_start();
 
 include("connection.php");
 include("functions.php");
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if (!isset($_COOKIE['auth_token'])) {
+    setcookie('auth_token', time() +  60 * 60 * 24);
+}
 
-    
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $user_name = $_POST['user_name'];
-    $query = "SELECT * FROM users WHERE user_name='$user_name' limit 1"; 
+    $query = "SELECT * FROM users WHERE user_name='$user_name' limit 1";
     $result = mysqli_query($con, $query);
     $user_data = mysqli_fetch_assoc($result);
 
     if (!empty($user_data)) {
 
         $salt = $user_data['salt'];
-		$hash = $user_data['password'];
-		
-		$password = md5($salt . $_POST['password']);
-		
-		// Сравниваем соленые хеши
-		if ($password == $hash) {
-			$_SESSION['user_id'] = $user_data['user_id'];
+        $hash = $user_data['password'];
+        $password = md5($salt . $_POST['password']);
+
+        if ($password == $hash) {
+            setcookie('auth_token', $user_data['auth_token'], time() +  60 * 60 * 24);
             header("Location: index.php");
             die;
-		} else {
-			echo "Wrong login or password!";
+        } else {
+            echo "Wrong login or password!";
         }
-    } 
-    else {
+    } else {
         echo "Please enter some valid information!";
     }
 }
@@ -47,14 +44,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             text-align: center;
             align-content: center;
         }
-        input[type=text], input[type=password] {
+
+        input[type=text],
+        input[type=password] {
             padding: 12px 20px;
             margin: 8px 0;
         }
+
         table {
             text-align: center;
             margin: auto;
         }
+
         form {
             text-align: center;
         }
@@ -63,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 <body>
     <div>
-    <h1>Вход на сайт</h1>
+        <h1>Вход на сайт</h1>
         <form method="post">
             <table>
                 <tr>

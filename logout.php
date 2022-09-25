@@ -1,13 +1,7 @@
-<meta charset="utf-8">
 <?php
 
-session_start();
-
-if(isset($_SESSION['user_id']))
-{
-	unset($_SESSION['user_id']);
-
-}
+setcookie('auth_token', '', time());
+unset($_COOKIE['auth_token']);
 
 header("Location: signin.php");
 die;
