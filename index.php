@@ -3,15 +3,17 @@
 include("connection.php");
 include("functions.php");
 
-if (is_null($_COOKIE['auth_token'])) {
-    header("Location: signin.php");
-    die;
-}
+$user_token = $_COOKIE['auth_token'];
 
-$user_data = check_login($con);
+$query = "SELECT * FROM users WHERE auth_token='$user_token' limit 1";
+$result = mysqli_query($con, $query);
+if (mysqli_num_rows($result) == 0) {
+    header("Location: auth.php");
+}
+$user_data = mysqli_fetch_assoc($result);
+$user_name = $user_data['auth_token'];
 ?>
 
-<!DOCTYPE html>
 <html>
 
 <head>

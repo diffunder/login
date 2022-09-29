@@ -1,27 +1,28 @@
 <?php
-
 include("connection.php");
 include("functions.php");
 
-if (!isset($_COOKIE['auth_token'])) {
-    setcookie('auth_token', time() +  60 * 60 * 24);
-}
+setcookie('auth_token', time() +  60 * 60 * 24);
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $user_name = $_POST['user_name'];
+
     $auth_token = $_COOKIE['auth_token'];
+    $user_name = $_POST['user_name'];
     $salt = random_salt();
     $password = md5($salt . $_POST['password']);
-
     if (!empty($user_name) && !empty($password)) {
         $query = "SELECT * FROM users WHERE user_name='$user_name'";
         $result = mysqli_query($con, $query);
     } else {
+        header("Location: signup.php");
         echo "Please enter some valid information!";
     }
+
     if (mysqli_num_rows($result) == 0) {
+        $auth_token = $_COOKIE['auth_token'];
         $query = "INSERT into users (user_name, auth_token, password, salt) VALUES ('$user_name', '$auth_token', '$password', '$salt')";
-        mysqli_query($con, $query);
+        $result = mysqli_query($con, $query);
+
         header("Location: signin.php");
         die;
     } else {
@@ -31,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<meta charset="utf-8">
 <html lang="ru">
 
 <head>
