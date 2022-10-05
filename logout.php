@@ -1,5 +1,7 @@
 <?php
 
+include("auth.php");
+
 setcookie('auth_token', '', time());
 unset($_COOKIE['auth_token']);
 

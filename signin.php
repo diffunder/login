@@ -3,7 +3,12 @@
 include("connection.php");
 include("functions.php");
 
+if(empty($_COOKIE['auth_token'])) {
+    setcookie('auth_token', time() +  60 * 60 * 24);
+}
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $flag = 0;
     $user_name = $_POST['user_name'];
     $query = "SELECT * FROM users WHERE user_name='$user_name' limit 1";
     $result = mysqli_query($con, $query);
@@ -17,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         if ($password == $hash) {
             setcookie('auth_token', $user_data['auth_token'], time() +  60 * 60 * 24);
-            header("Location: auth.php");
+            header("Location: index.php");
             die;
         } else {
             echo "Wrong login or password!";
