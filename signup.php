@@ -6,7 +6,6 @@ if(empty($_COOKIE['auth_token'])) {
     setcookie('auth_token', time() +  60 * 60 * 24);
 }
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $flag = 0;
     $auth_token = $_COOKIE['auth_token'];
     $user_name = $_POST['user_name'];
     $salt = random_salt();

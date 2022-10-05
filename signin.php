@@ -3,12 +3,11 @@
 include("connection.php");
 include("functions.php");
 
-if(empty($_COOKIE['auth_token'])) {
+if (empty($_COOKIE['auth_token'])) {
     setcookie('auth_token', time() +  60 * 60 * 24);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $flag = 0;
     $user_name = $_POST['user_name'];
     $query = "SELECT * FROM users WHERE user_name='$user_name' limit 1";
     $result = mysqli_query($con, $query);
