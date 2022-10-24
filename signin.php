@@ -1,10 +1,9 @@
 <?php
 
 include("connection.php");
-include("functions.php");
 
 if (empty($_COOKIE['auth_token'])) {
-    setcookie('auth_token', time() +  60 * 60 * 24);
+    setcookie('auth_token', random_cookie(), time() +  60 * 60 * 24);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {

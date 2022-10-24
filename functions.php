@@ -12,19 +12,27 @@ function random_salt()
     return $salt;
 }
 
-function checkAuth(): bool 
+function random_cookie()
+{
+    $cookie = '';
+    for ($i = 0; $i < 10; $i++) {
+        $cookie .= chr(mt_rand(48, 57));
+    }
+    return $cookie;
+}
+
+function checkAuth(): bool
 {
     require("connection.php");
     $user_token = $_COOKIE['auth_token'];
-    
+
     $query = "SELECT * FROM users WHERE auth_token='$user_token' limit 1";
     $result = mysqli_query($con, $query);
     $user_data = mysqli_fetch_assoc($result);
-    
+
     if ($_COOKIE['auth_token'] != $user_data['auth_token']) {
         return false;
-    }
-    else {
+    } else {
         return true;
     }
 }
@@ -37,7 +45,7 @@ function get_login($con)
         $result = mysqli_query($con, $query);
         if (mysqli_num_rows($result) > 0) {
             $user_data = mysqli_fetch_assoc($result);
-            return $user_data;
+            return $user_data['user_name'];
         }
     }
     header("Location: signin.php");

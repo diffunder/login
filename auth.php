@@ -7,3 +7,4 @@ if (!checkAuth()) {
     header("Location: signin.php");
     die;
 }
+

@@ -1,5 +1,4 @@
 <?php
-
 include("auth.php");
 
 $user_name = get_login($con);
@@ -36,7 +35,7 @@ $user_name = get_login($con);
 <body>
     <div>
         <h1>Фанклуб Сонхуна из ENHYPEN</h1>
-        Hello, <?php echo $user_data['user_name']; ?>.<br><br>
+        Hello, <?php echo $user_name; ?>.<br><br>
         <a href="logout.php">Logout</a><br><br>
     </div>
 
